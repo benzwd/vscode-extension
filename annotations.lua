@@ -2704,6 +2704,8 @@ function Client.ShowNotification(text, notification_type, add_to_notification_li
 ---@param callback function @Function to call when the event is triggered
 ---@return function @The callback function passed
 ---@overload fun(event_name: "LanguageChange", callback: fun(language: string)): fun(language: string) @Called when the Client language changes
+---@overload fun(event_name: "PackageLoad", callback: fun(package_name: string)): fun(package_name: string) @Triggered when any package is loaded
+---@overload fun(event_name: "PackageUnload", callback: fun(package_name: string)): fun(package_name: string) @Triggered when any package is unloaded
 ---@overload fun(event_name: "SpawnLocalPlayer", callback: fun(local_player: Player)): fun(local_player: Player) @Called when the local player spawns (just after the game has loaded)
 ---@overload fun(event_name: "Tick", callback: fun(delta_time: number)): fun(delta_time: number) @Called Every Frame. Do not abuse
 ---@overload fun(event_name: "ValueChange", callback: fun(key: string, value: any)): fun(key: string, value: any) @Triggered when a Value is changed with <code>Client.SetValue()</code> or <code>Server.SetValue()</code> (for synced values)
@@ -2715,6 +2717,8 @@ function Client.Subscribe(event_name, callback) end
 ---@param event_name string @Name of the event to unsubscribe from
 ---@param callback? function @Optional callback to unsubscribe (if no callback is passed then all callbacks in this Package will be unsubscribed from this event)
 ---@overload fun(event_name: "LanguageChange", callback: fun(language: string)) @Called when the Client language changes
+---@overload fun(event_name: "PackageLoad", callback: fun(package_name: string)) @Triggered when any package is loaded
+---@overload fun(event_name: "PackageUnload", callback: fun(package_name: string)) @Triggered when any package is unloaded
 ---@overload fun(event_name: "SpawnLocalPlayer", callback: fun(local_player: Player)) @Called when the local player spawns (just after the game has loaded)
 ---@overload fun(event_name: "Tick", callback: fun(delta_time: number)) @Called Every Frame. Do not abuse
 ---@overload fun(event_name: "ValueChange", callback: fun(key: string, value: any)) @Triggered when a Value is changed with <code>Client.SetValue()</code> or <code>Server.SetValue()</code> (for synced values)
@@ -7756,13 +7760,6 @@ function Server.GetActorsInRadius(location, radius, only_classes, dimension) end
 function Server.GetAllValuesKeys() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
----<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/server#static-function-getcompressionlevel">docs</a>
----
----Returns the server Compression Level being used
----@return integer @the server Compression Level
-function Server.GetCompressionLevel() end
-
----<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/server#static-function-getconnectioncount">docs</a>
 ---
 ---Returns the number of connected players (including players in the process of connecting)
@@ -8067,6 +8064,8 @@ function Server.UnloadPackage(package_folder_name) end
 ---@param callback function @Function to call when the event is triggered
 ---@return function @The callback function passed
 ---@overload fun(event_name: "ChangeMap", callback: fun(old_map: string, new_map: string)): fun(old_map: string, new_map: string) @Called when the map changes. This is always called just before Restart event
+---@overload fun(event_name: "PackageLoad", callback: fun(package_name: string)): fun(package_name: string) @Triggered when any package is loaded
+---@overload fun(event_name: "PackageUnload", callback: fun(package_name: string)): fun(package_name: string) @Triggered when any package is unloaded
 ---@overload fun(event_name: "PlayerConnect", callback: fun(ip: string, player_account_id: string, player_name: string, player_steam_id: string)): fun(ip: string, player_account_id: string, player_name: string, player_steam_id: string) @Called when a player is attempting to connect to the server, before the Player entity is created.<br/><br/>To refuse the connection, call <code>Server.KickByAccountID()</code> or <code>Server.BanByAccountID()</code> with the <code>player_account_id</code> (returning <code>false</code> is deprecated).
 ---@overload fun(event_name: "PlayerDisconnect", callback: fun(ip: string, player_account_id: string, player_name: string, player_steam_id: string, disconnect_reason: string)): fun(ip: string, player_account_id: string, player_name: string, player_steam_id: string, disconnect_reason: string) @Called when a player is disconnecting from the server
 ---@overload fun(event_name: "Restart", callback: fun()): fun() @Triggered when the server is restarting
@@ -8080,6 +8079,8 @@ function Server.Subscribe(event_name, callback) end
 ---@param event_name string @Name of the event to unsubscribe from
 ---@param callback? function @Optional callback to unsubscribe (if no callback is passed then all callbacks in this Package will be unsubscribed from this event)
 ---@overload fun(event_name: "ChangeMap", callback: fun(old_map: string, new_map: string)) @Called when the map changes. This is always called just before Restart event
+---@overload fun(event_name: "PackageLoad", callback: fun(package_name: string)) @Triggered when any package is loaded
+---@overload fun(event_name: "PackageUnload", callback: fun(package_name: string)) @Triggered when any package is unloaded
 ---@overload fun(event_name: "PlayerConnect", callback: fun(ip: string, player_account_id: string, player_name: string, player_steam_id: string)) @Called when a player is attempting to connect to the server, before the Player entity is created.<br/><br/>To refuse the connection, call <code>Server.KickByAccountID()</code> or <code>Server.BanByAccountID()</code> with the <code>player_account_id</code> (returning <code>false</code> is deprecated).
 ---@overload fun(event_name: "PlayerDisconnect", callback: fun(ip: string, player_account_id: string, player_name: string, player_steam_id: string, disconnect_reason: string)) @Called when a player is disconnecting from the server
 ---@overload fun(event_name: "Restart", callback: fun()) @Triggered when the server is restarting
