@@ -1275,12 +1275,6 @@ function Character.GetAll() end
 ---@return EntityIterator<Character> @Iterator with all Entities of this class
 function Character.GetPairs() end
 
----<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
----<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-clearmorphtargets">docs</a>
----
----Clear all Morph Target that are set to this Mesh
-function Character:ClearMorphTargets() end
-
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-drop">docs</a>
 ---
@@ -1294,13 +1288,6 @@ function Character:Drop() end
 ---@param vehicle Vehicle @The Vehicle
 ---@param seat? integer @Seat index to enter, 0 is the driver seat (Default: 0)
 function Character:EnterVehicle(vehicle, seat) end
-
----<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
----<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-getallmorphtargetnames">docs</a>
----
----Returns a table with all morph targets available
----@return string[] @table with all morph targets available
-function Character:GetAllMorphTargetNames() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-getcameramode">docs</a>
@@ -1415,14 +1402,6 @@ function Character:GetGrabbedProp() end
 function Character:GetImpactDamageTaken() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
----<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-getmorphtarget">docs</a>
----
----Returns the value of a Morph Target
----@param name string @Morph Target Name
----@return number @value of the Morph Target
-function Character:GetMorphTarget(name) end
-
----<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-getpicked">docs</a>
 ---
 ---Gets the Pickable if picking up
@@ -1463,13 +1442,6 @@ function Character:GetStanceMode() end
 ---Gets the Swimming Mode
 ---@return SwimmingMode @Swimming Mode
 function Character:GetSwimmingMode() end
-
----<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
----<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-getteam">docs</a>
----
----Gets the Team of this Character
----@return integer @The Team, 0 means no team
-function Character:GetTeam() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-getvehicle">docs</a>
@@ -1774,14 +1746,6 @@ function Character:SetInvulnerable(is_invulnerable) end
 ---@param skeletal_mesh_asset string @The new Skeletal Mesh asset
 function Character:SetMesh(skeletal_mesh_asset) end
 
----<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
----<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setmorphtarget">docs</a>
----
----Sets the value of a Morph Target
----@param name string @Morph Target Name
----@param value number @The Morph Target weight, usually from 0 to 1
-function Character:SetMorphTarget(name, value) end
-
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setpainsound">docs</a>
 ---
@@ -1873,13 +1837,6 @@ function Character:SetSpeedMultiplier(speed_multiplier) end
 ---Sets the Stance Mode (standing, crouching or proning)
 ---@param stance_mode StanceMode @The new Stance Mode
 function Character:SetStanceMode(stance_mode) end
-
----<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
----<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setteam">docs</a>
----
----Sets a Team which will disable damaging same Team Members
----@param team integer @0 is neutral and default
-function Character:SetTeam(team) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/network-authority.png" height="21"> <b>[Network Authority]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setviewmode">docs</a>
@@ -2271,7 +2228,8 @@ function CharacterSimple:SetRotationSettings(rotation_rate, use_controller_desir
 ---@param max_walk_speed? integer @Max speed while walking (Default: 600)
 ---@param max_walk_speed_crouched? integer @Max speed while crouched (Default: 300)
 ---@param max_fly_speed? integer @Max speed while flying (Default: 600)
-function CharacterSimple:SetSpeedSettings(max_walk_speed, max_walk_speed_crouched, max_fly_speed) end
+---@param max_swim_speed? integer @Max speed while swimming (Default: 300)
+function CharacterSimple:SetSpeedSettings(max_walk_speed, max_walk_speed_crouched, max_fly_speed, max_swim_speed) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/charactersimple#function-setspringarmsettings">docs</a>
@@ -2461,6 +2419,15 @@ function Chat.SetConfiguration(screen_location, size, anchors_min, anchors_max, 
 ---Sets if the Chat is visible or not
 ---@param is_visible boolean @Whether the Chat is visible or not
 function Chat.SetVisibility(is_visible) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/chat#static-function-submit">docs</a>
+---
+---Submits a chat message as if the Player had typed it in the chat, also triggering the PlayerSubmit event
+---@param player Player @The player who is sending the message
+---@param message string @The message
+---@return boolean @false if a PlayerSubmit handler cancelled the message, true if it was broadcast
+function Chat.Submit(player, message) end
 
 
 
@@ -5628,7 +5595,8 @@ function Paintable:SetMaterialColorParameter(parameter_name, color, index, attac
 ---Sets the material at the specified index of this Actor to a Canvas object
 ---@param canvas Canvas @The Canvas object to use as a material
 ---@param index? integer @The material index to apply (<code>-1</code> means all indices) (Default: -1)
-function Paintable:SetMaterialFromCanvas(canvas, index) end
+---@param attachable_id? string @The attachable ID (set with <code>AddSkeletalMeshAttached</code> or <code>AddStaticMeshAttached</code>) to apply the material. Pass empty to set on main mesh only (Default: "")
+function Paintable:SetMaterialFromCanvas(canvas, index, attachable_id) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/paintable#function-setmaterialfromscenecapture">docs</a>
@@ -5636,7 +5604,8 @@ function Paintable:SetMaterialFromCanvas(canvas, index) end
 ---Sets the material at the specified index of this Actor to a SceneCapture object
 ---@param scene_capture SceneCapture @The SceneCapture object to use as a material
 ---@param index? integer @The material index to apply (<code>-1</code> means all indices) (Default: -1)
-function Paintable:SetMaterialFromSceneCapture(scene_capture, index) end
+---@param attachable_id? string @The attachable ID (set with <code>AddSkeletalMeshAttached</code> or <code>AddStaticMeshAttached</code>) to apply the material. Pass empty to set on main mesh only (Default: "")
+function Paintable:SetMaterialFromSceneCapture(scene_capture, index, attachable_id) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/paintable#function-setmaterialfromwebui">docs</a>
@@ -5644,7 +5613,8 @@ function Paintable:SetMaterialFromSceneCapture(scene_capture, index) end
 ---Sets the material at the specified index of this Actor to a WebUI object
 ---@param webui WebUI @The WebUI object to use as a material
 ---@param index? integer @The material index to apply (<code>-1</code> means all indices) (Default: -1)
-function Paintable:SetMaterialFromWebUI(webui, index) end
+---@param attachable_id? string @The attachable ID (set with <code>AddSkeletalMeshAttached</code> or <code>AddStaticMeshAttached</code>) to apply the material. Pass empty to set on main mesh only (Default: "")
+function Paintable:SetMaterialFromWebUI(webui, index, attachable_id) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/paintable#function-setmaterialscalarparameter">docs</a>
@@ -5661,7 +5631,7 @@ function Paintable:SetMaterialScalarParameter(parameter_name, scalar, index, att
 ---
 ---Sets a texture parameter in this Actor's material to an image
 ---@param parameter_name string @The name of the material parameter
----@param texture_path string @The path to texture, a url or a base64
+---@param texture_path string @The path to texture, a url or a base64. Files on disk are reloaded if overwritten since the last load
 ---@param index? integer @The material index to apply (<code>-1</code> means all indices) (Default: -1)
 ---@param attachable_id? string @The attachable ID (set with <code>AddSkeletalMeshAttached</code> or <code>AddStaticMeshAttached</code>) to apply the material parameter. Pass empty to set on main mesh only (Default: "")
 function Paintable:SetMaterialTextureParameter(parameter_name, texture_path, index, attachable_id) end
@@ -5887,6 +5857,12 @@ function Pawn:AddSkeletalMeshAttached(id, skeletal_mesh_path, socket, relative_l
 ---@param attachable_id? string @Optionally attaches this to another attached static mesh (instead of attaching to the root component) (Default: "")
 function Pawn:AddStaticMeshAttached(id, static_mesh_path, socket, relative_location, relative_rotation, use_parent_bounds, attachable_id) end
 
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-clearmorphtargets">docs</a>
+---
+---Clears all Morph Targets set on this Pawn's Mesh
+function Pawn:ClearMorphTargets() end
+
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/authority-only.png" height="21"> <b>[Authority Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-follow">docs</a>
 ---
@@ -5897,6 +5873,13 @@ function Pawn:AddStaticMeshAttached(id, static_mesh_path, socket, relative_locat
 ---@param stop_on_fail? boolean @Whether to stop when failed to reach the target (Default: false)
 ---@param update_rate? number @How often to recalculate the AI path (Default: 0.25)
 function Pawn:Follow(actor, acceptance_radius, stop_on_succeed, stop_on_fail, update_rate) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-getallmorphtargetnames">docs</a>
+---
+---Returns an empty table if the mesh is not a Skeletal Mesh (CharacterSimple may use a Static Mesh)
+---@return string[] @table with all morph targets available
+function Pawn:GetAllMorphTargetNames() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-getallskeletalmeshattached">docs</a>
@@ -5969,6 +5952,14 @@ function Pawn:GetJumpZVelocity() end
 function Pawn:GetMesh() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-getmorphtarget">docs</a>
+---
+---Returns the value of a Morph Target
+---@param name string @Morph Target Name
+---@return number @value of the Morph Target
+function Pawn:GetMorphTarget(name) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-getmovingto">docs</a>
 ---
 ---Gets the Moving To location
@@ -5981,6 +5972,13 @@ function Pawn:GetMovingTo() end
 ---Gets the possessing Player
 ---@return Player? @Possessing Player
 function Pawn:GetPlayer() end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-getteam">docs</a>
+---
+---Gets the Team of this Pawn
+---@return integer @The Team, 0 means no team
+function Pawn:GetTeam() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-hidebone">docs</a>
@@ -6124,6 +6122,14 @@ function Pawn:SetJumpZVelocity(jump_z_velocity) end
 ---@param is_visible? boolean @Whether the mesh is visible (useful for using retargeters using child meshes) (Default: true)
 function Pawn:SetMeshSettings(relative_location, relative_rotation, is_visible) end
 
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-setmorphtarget">docs</a>
+---
+---Sets the value of a Morph Target
+---@param name string @Morph Target Name
+---@param value number @The Morph Target weight, usually from 0 to 1
+function Pawn:SetMorphTarget(name, value) end
+
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-setragdollondeathenabled">docs</a>
 ---
@@ -6139,6 +6145,13 @@ function Pawn:SetRagdollOnDeathEnabled(is_enabled) end
 ---@param relative_location Vector @New relative location
 ---@param relative_rotation Rotator @New relative rotation
 function Pawn:SetStaticMeshAttachedTransform(id, relative_location, relative_rotation) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/authority-only.png" height="21"> <b>[Authority Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-setteam">docs</a>
+---
+---Sets a Team which will disable damaging same Team Members
+---@param team integer @0 is neutral and default
+function Pawn:SetTeam(team) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-stopanimation">docs</a>
@@ -8581,6 +8594,27 @@ function StaticMesh:SetMesh(static_mesh_asset) end
 Steam = {}
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/steam#static-function-getjoinedfromfriend">docs</a>
+---
+---Gets the SteamID of the Friend whose invite or "Join Game" brought this player to the current server, or <code>nil</code> if they connected any other way.<br/><br/>This value is reported by the client, so a server should not trust it blindly (e.g. ask the Friend to accept before adding the player to a private group).
+---@return string? @The Friend's SteamID, or <code>nil</code>
+function Steam.GetJoinedFromFriend() end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/steam#static-function-invitefriend">docs</a>
+---
+---Invites a Steam Friend to the current server
+---@param steam_id string @The SteamID of the Friend to invite
+---@return boolean @If the invite was sent
+function Steam.InviteFriend(steam_id) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/steam#static-function-openinvitedialog">docs</a>
+---
+---Opens the Steam Overlay invite dialog, so the player can invite Friends to the current server.<br/><br/>When a Friend accepts, they join this server and <code>Steam.GetJoinedFromFriend()</code> returns this player's SteamID on their side. If they were already on this server, the <code>FriendJoin</code> event is called instead
+function Steam.OpenInviteDialog() end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/steam#static-function-setrichpresence">docs</a>
 ---
 ---Sets Steam Rich Presence text
@@ -8592,6 +8626,23 @@ function Steam.SetRichPresence(text) end
 ---
 ---Triggers a Steam screenshot
 function Steam.TriggerScreenshot() end
+
+
+
+---Subscribe to an event
+---@param event_name string @Name of the event to subscribe to
+---@param callback function @Function to call when the event is triggered
+---@return function @The callback function passed
+---@overload fun(event_name: "FriendJoin", callback: fun(friend_steam_id: string)): fun(friend_steam_id: string) @Called when this player accepts a Friend's invite or "Join Game" to the server they are already on. In this case the player does not reconnect.<br/><br/>When the player connects from another server or from the menus, use <code>Steam.GetJoinedFromFriend()</code> instead.
+function Steam.Subscribe(event_name, callback) end
+
+---Unsubscribe from an event
+---@param event_name string @Name of the event to unsubscribe from
+---@param callback? function @Optional callback to unsubscribe (if no callback is passed then all callbacks in this Package will be unsubscribed from this event)
+---@overload fun(event_name: "FriendJoin", callback: fun(friend_steam_id: string)) @Called when this player accepts a Friend's invite or "Join Game" to the server they are already on. In this case the player does not reconnect.<br/><br/>When the player connects from another server or from the menus, use <code>Steam.GetJoinedFromFriend()</code> instead.
+function Steam.Unsubscribe(event_name, callback) end
+
+
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/text3d">docs</a>
@@ -8907,6 +8958,15 @@ function Timer.SetRemainingTime(timer_id, time) end
 ---@param ...? any @Additional parameters to pass to the function (Default: nil)
 ---@return integer @the timeout_id
 function Timer.SetTimeout(callback, milliseconds, ...) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/timer#static-function-unbind">docs</a>
+---
+---Unbinds a Timer from an Actor it was bound to with Timer.Bind, without clearing or resetting the Timer
+---@param timer_id integer @The Timer ID
+---@param actor Actor @Actor to be unbound
+---@return boolean @true if the Timer was bound to this Actor and got unbound
+function Timer.Unbind(timer_id, actor) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/utility-libraries/toml">docs</a>
