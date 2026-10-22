@@ -252,6 +252,13 @@ function Actor:HasNetworkAuthority() end
 function Actor:IsGravityEnabled() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-isimpulseondamage">docs</a>
+---
+---Returns true if taking damage pushes this Actor's physics body
+---@return boolean @Whether taking damage pushes this Actor
+function Actor:IsImpulseOnDamage() end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-isinwater">docs</a>
 ---
 ---Returns true if this Actor is in water. Only Actors that simulate physics work for this function, such as <code>Prop</code>, <code>Vehicle</code>, <code>Pickables</code> and <code>Character</code> only.
@@ -280,9 +287,18 @@ function Actor:IsVisible() end
 function Actor:RemoveActorTag(tag) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/network-authority.png" height="21"> <b>[Network Authority]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-rotaterelativeto">docs</a>
+---
+---Like <code>SetRelativeRotation</code>, it keeps following the parent while it rotates. It can only be used while the actor is attached, and it is cancelled if the actor gets attached to something else or detached
+---@param relative_rotation Rotator @The target rotation, relative to the parent
+---@param time number @Time to interpolate from current location to target location
+---@param exp? number @Exponent used to smooth interpolation. Use <code>0</code> for linear movement (Default: 0)
+function Actor:RotateRelativeTo(relative_rotation, time, exp) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/network-authority.png" height="21"> <b>[Network Authority]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-rotateto">docs</a>
 ---
----Smoothly rotates this actor to an angle over a certain time
+---It can't be used while the actor is attached, grabbed, picked or in a vehicle. Use <code>RotateRelativeTo</code> for attached actors
 ---@param rotation Rotator @The target rotation
 ---@param time number @Time to interpolate from current location to target location
 ---@param exp? number @Exponent used to smooth interpolation. Use <code>0</code> for linear movement (Default: 0)
@@ -345,6 +361,13 @@ function Actor:SetGravityEnabled(gravity_enabled) end
 ---@param is_enabled boolean @Whether the highlight is enabled
 ---@param index? integer @Index to use (should be <code>0</code>, <code>1</code> or <code>2</code>) (Default: 0)
 function Actor:SetHighlightEnabled(is_enabled, index) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-setimpulseondamage">docs</a>
+---
+---Useful for things that should react to shots without being knocked around, like a shooting target that still falls with gravity and can be moved by other means. Enabled by default
+---@param impulse_on_damage boolean @Whether taking damage pushes this Actor
+function Actor:SetImpulseOnDamage(impulse_on_damage) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/authority-only.png" height="21"> <b>[Authority Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-setlifespan">docs</a>
@@ -425,9 +448,18 @@ function Actor:SetScale(scale) end
 function Actor:SetVisibility(is_visible) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/network-authority.png" height="21"> <b>[Network Authority]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-translaterelativeto">docs</a>
+---
+---Like <code>SetRelativeLocation</code>, it keeps following the parent while it moves. It can only be used while the actor is attached, and it is cancelled if the actor gets attached to something else or detached
+---@param relative_location Vector @The target location, relative to the parent
+---@param time number @Time to interpolate from current location to target location
+---@param exp? number @Exponent used to smooth interpolation. Use <code>0</code> for linear movement (Default: 0)
+function Actor:TranslateRelativeTo(relative_location, time, exp) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/network-authority.png" height="21"> <b>[Network Authority]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/actor#function-translateto">docs</a>
 ---
----Smoothly moves this actor to a location over a certain time
+---It can't be used while the actor is attached, grabbed, picked or in a vehicle. Use <code>TranslateRelativeTo</code> for attached actors
 ---@param location Vector @The target location
 ---@param time number @Time to interpolate from current location to target location
 ---@param exp? number @Exponent used to smooth interpolation. Use <code>0</code> for linear movement (Default: 0)
@@ -1243,8 +1275,8 @@ Character = {}
 ---@param collision_type? CollisionType @Collision profile of this Actor (Default: CollisionType.Auto)
 ---@param gravity_enabled? boolean @Whether gravity affects this Actor (Default: true)
 ---@param max_health? integer @Current / Max Health (Default: 100)
----@param death_sound? string @Played when Character dies (Default: nanos-world::A_Male_01_Death)
----@param pain_sound? string @Played when Character takes damage (Default: nanos-world::A_Male_01_Pain)
+---@param death_sound? string @Played when Character dies, pass an empty string for no sound (Default: nanos-world::A_Male_01_Death)
+---@param pain_sound? string @Played when Character takes damage, pass an empty string for no sound (Default: nanos-world::A_Male_01_Pain)
 ---@param spawn_mode? SpawnMode @Pass <code>SpawnMode.AfterConstructor</code> or <code>SpawnMode.Manual</code> to avoid immediately sending the entity to clients and improve performance when you want to configure it by setting several configs. Must call <code>FinishSpawn()</code> after all (Default: SpawnMode.Immediate)
 function Character:Constructor(location, rotation, skeletal_mesh_asset, collision_type, gravity_enabled, max_health, death_sound, pain_sound, spawn_mode) end
 
@@ -1680,7 +1712,7 @@ function Character:SetCanUsePickables(can_use) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setdeathsound">docs</a>
 ---
 ---Changes the Death sound when Character dies
----@param sound_asset string @The new Death sound when Character dies
+---@param sound_asset? string @The new Death sound when Character dies, pass nil or an empty string for no sound (Default: nil)
 function Character:SetDeathSound(sound_asset) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
@@ -1750,14 +1782,14 @@ function Character:SetMesh(skeletal_mesh_asset) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setpainsound">docs</a>
 ---
 ---Changes the Pain sound when Character takes damage
----@param sound_asset string @The new Pain sound when Character takes damage
+---@param sound_asset? string @The new Pain sound when Character takes damage, pass nil or an empty string for no sound (Default: nil)
 function Character:SetPainSound(sound_asset) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setparachutetexture">docs</a>
 ---
 ---Changes the texture of the Character's parachute
----@param texture string @The new Parachute Texture
+---@param texture? string @The new Parachute Texture, pass nil or an empty string to restore the default Texture (Default: nil)
 function Character:SetParachuteTexture(texture) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/both.png" height="21"> <b>[Client/Server Side]</b>
@@ -1779,7 +1811,7 @@ function Character:SetPhysicalAnimationSettings(bone, include_self, is_local_sim
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/character#function-setphysicsasset">docs</a>
 ---
 ---Sets the Physics Asset for the Character
----@param physics_asset string @The new Physics Asset for the Character
+---@param physics_asset? string @The new Physics Asset for the Character, pass nil or an empty string to restore the Mesh's own Physics Asset (Default: nil)
 function Character:SetPhysicsAsset(physics_asset) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
@@ -2209,7 +2241,7 @@ function CharacterSimple:SetPawnSettings(use_controller_rotation_pitch, use_cont
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/charactersimple#function-setphysicsasset">docs</a>
 ---
 ---Sets the Physics Asset for the Character
----@param physics_asset string @The new Physics Asset for the Character
+---@param physics_asset? string @The new Physics Asset for the Character, pass nil or an empty string to restore the Mesh's own Physics Asset (Default: nil)
 function CharacterSimple:SetPhysicsAsset(physics_asset) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/authority-only.png" height="21"> <b>[Authority Side]</b>
@@ -2558,7 +2590,7 @@ function Client.GetPackages(package_type_filter) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/client#static-function-getsettings">docs</a>
 ---
 ---Gets the local player's game Settings
----@return { ToggleSprint: boolean, ToggleCrouch: boolean, ToggleAim: boolean, ToggleWalk: boolean, MouseSensitivity: number, AutoReAlignCamera: boolean, FOVCanChange: boolean, CameraBending: integer, EnableCustomLoadingScreen: boolean, VolumeMusic: integer, VolumeMenuMusic: integer, VolumeUI: integer, VolumeSFX: integer, VolumeAmbient: integer, VolumeOverall: integer, VolumeVoice: integer, VoicePushToTalk: boolean, PlaySoundInDesktop: boolean, Gamma: integer, MotionBlur: integer, FOV: integer, GameMaxFPS: integer, RayTracing: boolean, HardwareRayTracing: boolean, RHI: integer, BloodDecalQualityLevel: integer, AntiAliasingMethod: integer, ShadowMapMethod: integer, MegaLights: boolean, UpscalingMethod: integer, UpscalingQuality: integer, UpscalingSharpness: integer, FrameGenerationMethod: integer, LatencyReductionMethod: integer, DLSSFrameGenerationMode: integer, DLSSRayReconstruction: boolean, CEFSharedTexture: boolean, CEFUseHardwareAcceleration: boolean, CEFUseMessageLoopSchedule: boolean, CEFUseExternalBeginFrame: boolean, CEFMaxFrameRate: integer, CEFMaxResolution: integer, ScreenResolution: Vector2D, FullscreenMode: integer, VSync: boolean, ResolutionScale: number, OverallQuality: integer, ViewDistanceQuality: integer, ShadowQuality: integer, GlobalIlluminationQuality: integer, ReflectionQuality: integer, AntiAliasingQuality: integer, TextureQuality: integer, VisualEffectQuality: integer, PostProcessingQuality: integer, FoliageQuality: integer, ShadingQuality: integer } @the current Settings
+---@return { ToggleSprint: boolean, ToggleCrouch: boolean, ToggleAim: boolean, ToggleWalk: boolean, MouseSensitivity: number, AutoReAlignCamera: boolean, FOVCanChange: boolean, CameraBending: integer, EnableCustomLoadingScreen: boolean, VolumeMusic: integer, VolumeMenuMusic: integer, VolumeUI: integer, VolumeSFX: integer, VolumeAmbient: integer, VolumeOverall: integer, VolumeVoice: integer, VoicePushToTalk: boolean, PlaySoundInDesktop: boolean, PlayTypingSounds: boolean, Gamma: integer, MotionBlur: integer, FOV: integer, GameMaxFPS: integer, RayTracing: boolean, HardwareRayTracing: boolean, RHI: integer, BloodDecalQualityLevel: integer, AntiAliasingMethod: integer, ShadowMapMethod: integer, MegaLights: boolean, UpscalingMethod: integer, UpscalingQuality: integer, UpscalingSharpness: integer, FrameGenerationMethod: integer, LatencyReductionMethod: integer, DLSSFrameGenerationMode: integer, DLSSRayReconstruction: boolean, CEFSharedTexture: boolean, CEFUseHardwareAcceleration: boolean, CEFUseMessageLoopSchedule: boolean, CEFUseExternalBeginFrame: boolean, CEFMaxFrameRate: integer, CEFMaxResolution: integer, ScreenResolution: Vector2D, FullscreenMode: integer, VSync: boolean, ResolutionScale: number, OverallQuality: integer, ViewDistanceQuality: integer, ShadowQuality: integer, GlobalIlluminationQuality: integer, ReflectionQuality: integer, AntiAliasingQuality: integer, TextureQuality: integer, VisualEffectQuality: integer, PostProcessingQuality: integer, FoliageQuality: integer, ShadingQuality: integer } @the current Settings
 function Client.GetSettings() end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
@@ -5044,7 +5076,7 @@ function Melee:SetDamageSettings(damage_start_time, damage_duration_time) end
 ---
 ---Sets the Sound when hitting something
 ---@param surface_type SurfaceType @The surface to apply the sound. Use <code>SurfaceType.Default</code> to be the default to all non defined surfaces. Note: Surfaces <b>Water</b> and <b>Flesh</b> already have default sounds and must be explicitly overridden
----@param asset_path string @The Sound used when attacking
+---@param asset_path? string @The Sound used when attacking, pass nil or an empty string for no sound (Default: nil)
 ---@param volume? number @Volume multiplier (Default: 1.0)
 ---@param pitch? number @Pitch multiplier (Default: 1.0)
 function Melee:SetImpactSound(surface_type, asset_path, volume, pitch) end
@@ -5053,7 +5085,7 @@ function Melee:SetImpactSound(surface_type, asset_path, volume, pitch) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/melee#function-setsounduse">docs</a>
 ---
 ---Sets the Sound when attacking
----@param asset_path string @The Sound used when attacking
+---@param asset_path? string @The Sound used when attacking, pass nil or an empty string for no sound (Default: nil)
 function Melee:SetSoundUse(asset_path) end
 
 
@@ -6004,7 +6036,7 @@ function Pawn:Jump() end
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/authority-only.png" height="21"> <b>[Authority Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pawn#function-moveto">docs</a>
 ---
----AI: Makes this Pawn walk to the Location<br/><br/>Triggers event <a href='/docs/scripting-reference/classes/base-classes/pawn#event-movecomplete'>MoveComplete</a>
+---AI: Makes this Pawn walk to the Location<br/><br/>While in flying mode (see SetFlyingMode) it flies there in a straight line instead of following the navmesh, so the Location can be in the air<br/><br/>Triggers event <a href='/docs/scripting-reference/classes/base-classes/pawn#event-movecomplete'>MoveComplete</a>
 ---@param location Vector @The destination
 ---@param acceptance_radius? number @Distance from the destination considered as arrived (Default: 50)
 function Pawn:MoveTo(location, acceptance_radius) end
@@ -6442,7 +6474,7 @@ function Pickable:SetCanUse(can_use) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/base-classes/pickable#function-setcrosshairmaterial">docs</a>
 ---
 ---Sets the crosshair material for this Pickable
----@param material_asset string @Asset path to the crosshair material
+---@param material_asset? string @Asset path to the crosshair material, pass nil or an empty string for no crosshair (Default: nil)
 function Pickable:SetCrosshairMaterial(material_asset) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
@@ -8182,8 +8214,8 @@ function Sky.SetContrast(contrast) end
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/sky#static-function-setfog">docs</a>
 ---
----The fogginess of the scene. The impact this has on fog density is scaled from the Fog Density category
----@param fog_percentage number @Fog amount, from 0 to 100
+---The fogginess of the scene. The impact this has on fog density is scaled from the Fog Density category. With weather spawned it also pins the weather's fog to this value, so later weather changes keep it, until called with nil
+---@param fog_percentage? number @Fog amount, from 0 to 100, or nil to hand the fog back to the weather (Default: nil)
 function Sky.SetFog(fog_percentage) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
@@ -8202,11 +8234,25 @@ function Sky.SetMoonAngle(yaw, pitch) end
 function Sky.SetMoonGlowIntensity(glow_intensity) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/sky#static-function-setmoonlightcolor">docs</a>
+---
+---Sets the Moon Light Color, the color of the light the moon casts at night
+---@param color Color @The new Moon Light Color
+function Sky.SetMoonLightColor(color) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/sky#static-function-setmoonlightintensity">docs</a>
 ---
 ---Sets the Moon Light Intensity
 ---@param intensity number @The new Moon Light Intensity
 function Sky.SetMoonLightIntensity(intensity) end
+
+---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
+---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/sky#static-function-setmoonmaterialcolor">docs</a>
+---
+---Sets the Moon Material Color, which tints the moon texture<br /><br />Call <code>Reconstruct()</code> afterwards to apply it
+---@param color Color @The new Moon Material Color
+function Sky.SetMoonMaterialColor(color) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/client-only.png" height="21"> <b>[Client Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/static-classes/sky#static-function-setmoonphase">docs</a>
@@ -10067,7 +10113,7 @@ function VehicleWheeled:SetHeadlightsSetup(location, color) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/vehiclewheeled#function-sethornsound">docs</a>
 ---
 ---Sets the sound asset used by the vehicle horn
----@param sound_asset string @The new sound asset used by the vehicle horn
+---@param sound_asset? string @The new sound asset used by the vehicle horn, pass nil or an empty string for no sound (Default: nil)
 function VehicleWheeled:SetHornSound(sound_asset) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
@@ -10806,21 +10852,21 @@ function Weapon:SetMagazineMesh(magazine_mesh, magazine_mesh_hide_bone) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setparticlesbarrel">docs</a>
 ---
 ---Sets the Particle of the fire blast at the muzzle
----@param particle_asset_path string @The Particle asset to spawn at the muzzle when firing
+---@param particle_asset_path? string @The Particle asset to spawn at the muzzle when firing, pass nil or an empty string for no particle (Default: nil)
 function Weapon:SetParticlesBarrel(particle_asset_path) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setparticlesbullettrail">docs</a>
 ---
 ---Sets the Particle of the bullet trail
----@param particle_bullet_trail_asset_path string @The Particle asset to spawn for each bullet
+---@param particle_bullet_trail_asset_path? string @The Particle asset to spawn for each bullet, pass nil or an empty string for no particle (Default: nil)
 function Weapon:SetParticlesBulletTrail(particle_bullet_trail_asset_path) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setparticlesshells">docs</a>
 ---
 ---Sets the Particle of the empty shells ejected when firing
----@param particle_shells_asset_path string @The Particle asset to spawn when ejecting a shell
+---@param particle_shells_asset_path? string @The Particle asset to spawn when ejecting a shell, pass nil or an empty string for no particle (Default: nil)
 function Weapon:SetParticlesShells(particle_shells_asset_path) end
 
 ---<img src="https://raw.github.com/nanos-world/vscode-extension/master/assets/server-only.png" height="21"> <b>[Server Side]</b>
@@ -10856,7 +10902,7 @@ function Weapon:SetSightTransform(sight_location, sight_rotation) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setsoundaim">docs</a>
 ---
 ---Sets the Sound played when starting to aim
----@param sound_aim_asset_path string @The Sound asset to play
+---@param sound_aim_asset_path? string @The Sound asset to play, pass nil or an empty string for no sound (Default: nil)
 ---@param volume? number @Volume multiplier (Default: 1)
 ---@param pitch? number @Pitch multiplier (Default: 1)
 function Weapon:SetSoundAim(sound_aim_asset_path, volume, pitch) end
@@ -10865,7 +10911,7 @@ function Weapon:SetSoundAim(sound_aim_asset_path, volume, pitch) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setsounddry">docs</a>
 ---
 ---Sets the Sound played when trying to fire with an empty clip
----@param sound_dry_asset_path string @The Sound asset to play
+---@param sound_dry_asset_path? string @The Sound asset to play, pass nil or an empty string for no sound (Default: nil)
 ---@param volume? number @Volume multiplier (Default: 1)
 ---@param pitch? number @Pitch multiplier (Default: 1)
 function Weapon:SetSoundDry(sound_dry_asset_path, volume, pitch) end
@@ -10874,7 +10920,7 @@ function Weapon:SetSoundDry(sound_dry_asset_path, volume, pitch) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setsoundfire">docs</a>
 ---
 ---Sets the Sound played when firing
----@param sound_fire_asset_path string @The Sound asset to play
+---@param sound_fire_asset_path? string @The Sound asset to play, pass nil or an empty string for no sound (Default: nil)
 ---@param volume? number @Volume multiplier (Default: 1)
 ---@param pitch? number @Pitch multiplier (Default: 1)
 function Weapon:SetSoundFire(sound_fire_asset_path, volume, pitch) end
@@ -10883,7 +10929,7 @@ function Weapon:SetSoundFire(sound_fire_asset_path, volume, pitch) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setsoundfirelastbullets">docs</a>
 ---
 ---Sound when firing with only having X remaining bullets in the magazine, useful for last shot 'ping' or sound when low on bullets
----@param sound_asset_path string @The Sound asset to play
+---@param sound_asset_path? string @The Sound asset to play, pass nil or an empty string for no sound (Default: nil)
 ---@param remaining_bullets_count? integer @The amount of remaining bullet to start playing this sound (Default: 1)
 function Weapon:SetSoundFireLastBullets(sound_asset_path, remaining_bullets_count) end
 
@@ -10891,7 +10937,7 @@ function Weapon:SetSoundFireLastBullets(sound_asset_path, remaining_bullets_coun
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setsoundload">docs</a>
 ---
 ---Sets the Sound played when loading a magazine
----@param sound_load_asset_path string @The Sound asset to play
+---@param sound_load_asset_path? string @The Sound asset to play, pass nil or an empty string for no sound (Default: nil)
 ---@param volume? number @Volume multiplier (Default: 1)
 ---@param pitch? number @Pitch multiplier (Default: 1)
 function Weapon:SetSoundLoad(sound_load_asset_path, volume, pitch) end
@@ -10900,7 +10946,7 @@ function Weapon:SetSoundLoad(sound_load_asset_path, volume, pitch) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setsoundunload">docs</a>
 ---
 ---Sets the Sound played when unloading a magazine
----@param sound_unload_asset_path string @The Sound asset to play
+---@param sound_unload_asset_path? string @The Sound asset to play, pass nil or an empty string for no sound (Default: nil)
 ---@param volume? number @Volume multiplier (Default: 1)
 ---@param pitch? number @Pitch multiplier (Default: 1)
 function Weapon:SetSoundUnload(sound_unload_asset_path, volume, pitch) end
@@ -10909,7 +10955,7 @@ function Weapon:SetSoundUnload(sound_unload_asset_path, volume, pitch) end
 ---<a href="https://docs.nanos-world.com/docs/scripting-reference/classes/weapon#function-setsoundzooming">docs</a>
 ---
 ---Sets the Sound played when zooming
----@param sound_zooming_asset_path string @The Sound asset to play
+---@param sound_zooming_asset_path? string @The Sound asset to play, pass nil or an empty string for no sound (Default: nil)
 ---@param volume? number @Volume multiplier (Default: 1)
 ---@param pitch? number @Pitch multiplier (Default: 1)
 function Weapon:SetSoundZooming(sound_zooming_asset_path, volume, pitch) end
